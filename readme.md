@@ -22,19 +22,9 @@ O projeto destaca-se pelo rigor metodológico contra *data leakage*, comparaçã
   Integração do gargalo latente (*PCA-like projection*) com cabeça densa de classificação ajustada em duas etapas (camadas congeladas e posterior afinação das últimas 10 camadas da convolução).
 - **Explicabilidade Visual (XAI) com Grad-CAM:**
   Mapeamento de ativação ponderada por gradiente na última camada convolucional (`conv_1`) para auditar as regiões biológicas anatómicas que sustentam o diagnóstico.
-
 ---
-🔬 Benchmark de Modelos e Avaliação EstatísticaO processo de treino foi conduzido com validação cruzada aninhada (Nested Cross-Validation com $k=10$ folds externos e $k=3$ internos)
 
----
-🩺 Interpretabilidade com Grad-CAM
-A validação de modelos em patologias animais exige a certeza de que a rede não está a focar o fundo da imagem ou artefactos de iluminação:
-
-Utilizou-se a técnica Grad-CAM (Gradient-weighted Class Activation Mapping) extraindo os mapas da última camada de convolução (conv_1).
-
-Os mapas de ativação comprovaram foco nas zonas de necrose branquial e nas manchas cuticulares características das doenças estudadas (WSSV / Mancha Branca e Black Gill), garantindo validade biológica ao modelo.
-
-🛠️ Tecnologias e Bibliotecas
+## 🛠️ Tecnologias e Bibliotecas
 Linguagem: Python
 
 Deep Learning & Visão Computacional: TensorFlow, Keras (MobileNetV3Large), OpenCV, PIL
@@ -46,6 +36,45 @@ Validação Estatística: SciPy (stats.shapiro, stats.levene, stats.f_oneway, st
 Deduplicação de Imagens: ImageHash (phash)
 
 Visualização de Dados: Matplotlib, Seaborn
+
+---
+## 🔬 Benchmark de Modelos e Avaliação Estatística:
+O processo de treino foi conduzido com validação cruzada aninhada (Nested Cross-Validation com $k=10$ folds externos e $k=3$ internos)
+
+1. Resultados: 
+
+Modelo | Acurácia Média (%) | Precisão Macro (%) | Recall Macro (%) | F1-Score Macro (%) | Tempo de Treino (s)
+ :--- | :---: | :---: | :---: | :---: | :---: |
+SGD Classifier sem PCA | 85 | 85 | 82 | 83 | 0.11
+SGD Classifier + PCA (400 comp.) | 86 | 85 | 85 | 85 | 1.23
+SVC (RBF) sem PCA | 89 | 89 | 88 | 88 | 3.65
+SVC + PCA (200 comp.) | 90 | 90 | 89 | 89 | 2.90
+Random Forest sem PCA | 83 | 82 | 81 | 81 | 6.02
+Random Forest + PCA (300 comp.) | 82 | 82 | 78 | 79 | 8.60
+XGBoost sem PCA | 85 | 84 | 83 | 83 | 13.03
+XGBoost + PCA (300 comp.) | 84 | 84 | 81 | 82 | 9.17
+
+
+2. Inferência Estatística:
+* Acurácia, Precisão, Recall e F1-Score: Avaliados via ANOVA one-way após verificação de normalidade residual (Shapiro-Wilk) e homogeneidade de variâncias (Levene). O teste post-hoc de Tukey identificou que a compressão vetorial permitiu redução substancial de dimensionalidade mantendo paridade estatística de desempenho ($p > 0.05$).
+
+* Custo Computacional: A análise via teste de Friedman confirmou diferença estatisticamente significativa nos tempos de treino ($p < 0.001$), onde o teste de Nemenyi comprovou que modelos baseados em gradiente linear e redução PCA oferecem latência de processamento significativamente inferior.
+
+---
+## 🩺 Interpretabilidade com Grad-CAM
+A validação de modelos em patologias animais exige a certeza de que a rede não está a focar o fundo da imagem ou artefactos de iluminação:
+
+Utilizou-se a técnica Grad-CAM (Gradient-weighted Class Activation Mapping) extraindo os mapas da última camada de convolução (conv_1).
+
+Os mapas de ativação comprovaram foco nas zonas de necrose branquial e nas manchas cuticulares características das doenças estudadas (WSSV / Mancha Branca e Black Gill), garantindo validade biológica ao modelo.
+
+<img width="912" height="455" alt="image" src="https://github.com/user-attachments/assets/6aeade70-12e0-4fe1-87a2-a945be004363" />
+
+<img width="912" height="455" alt="image" src="https://github.com/user-attachments/assets/78fc0f7e-c022-49d5-bbab-d137480484bd" />
+
+<img width="912" height="455" alt="image" src="https://github.com/user-attachments/assets/82e44616-0a1c-4c61-b3c9-5a51a2207c89" />
+
+
 
 ---
 💻 Como Reproduzir o Projeto
