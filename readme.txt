@@ -8,7 +8,7 @@ O projeto destaca-se pelo rigor metodológico contra *data leakage*, comparaçã
 
 ## 📌 Principais Destaques de Engenharia e Metodologia
 
-- **Divisão com Prevenção de Fuga por Hashing Percetual (`imagehash`):**
+- **Divisão com Prevenção de Fuga por Hashing Percetual (`imagehash`):** 
   Agrupamento de imagens quase-duplicadas via *pHash* antes da separação, aplicando `GroupShuffleSplit` para garantir que variantes do mesmo espécime ou capturas em sequência nunca partilhem conjuntos de treino, validação e teste.
 - **Extração de Embeddings com Deep Learning:**
   Utilização da arquitetura **MobileNetV3Large** pré-treinada na ImageNet como extrator denso de características (*Global Average Pooling*).
@@ -75,11 +75,14 @@ Visualização de Dados: Matplotlib, Seaborn
 ---
 💻 Como Reproduzir o Projeto
 1. Clone o repositório:
+Bash
 git clone [https://github.com/pablo2fp/mobilenet-shrimp-disease-detection.git](https://github.com/pablo2fp/mobilenet-shrimp-disease-detection.git)
 cd mobilenet-shrimp-disease-detection
 
 2. Instale as dependências necessárias:
+Bash
 pip install -r requirements.txt
 
 3. Execute o script principal:
+Bash
 python mobilenet_binario_análise_de_imagem_de_camarão.py
